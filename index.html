@@ -1,119 +1,134 @@
-<style>
-body {
-  background: linear-gradient(135deg, #ffd6e8, #fff);
-  font-family: Times New Roman, sans-serif;
-  text-align: center;
-  width: 390px;   /* iPhone 12/13 width */
-  height: 844px;  /* iPhone 12/13 height */
-  margin: 0 auto;
-  overflow: hidden;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- THIS is what fixes the tiny-zoom issue on phones -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.card {
-  width: 360px;
-  margin: 50px auto;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  position: relative;
-}
+  <title>Kunal 💌</title>
 
-img {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 15px;
-}
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffd6e8, #fff);
+      font-family: "Times New Roman", serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
 
-h1 {
-  font-size: 22px;
-  margin-bottom: 20px;
-}
+    .card {
+      background: white;
+      width: 90%;
+      max-width: 360px;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+    }
 
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-  position: relative;
-}
+    img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
 
-button {
-  padding: 12px 22px;
-  font-size: 16px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
 
-#yes {
-  background: #ff4d6d;
-  color: white;
-}
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      position: relative;
+      height: 60px;
+    }
 
-#no {
-  background: #ccc;
-}
-</style>
+    button {
+      padding: 12px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    #no {
+      background: #ccc;
+    }
+  </style>
 </head>
 
 <body>
 
   <div class="card">
-    <img src="kunal.jpg">
-    <h1>Kunal, my dumdum😌, my pro🙄, won't you be my Valentine?🥺👉🏻👈🏻💙</h1>
+    <img src="kunal.jpg" alt="Kunal">
+    <h1>
+      Kunal, my dumdum😌, my pro🙄,<br>
+      won't you be my Valentine?🥺👉🏻👈🏻💙
+    </h1>
+
     <div class="buttons">
       <button id="yes" onclick="yesClicked()">Fuck YEAH 💙</button>
-      <button id="no" onmouseenter="moveNo()">NO</button>
+      <button id="no">NO</button>
     </div>
   </div>
 
   <script>
-    let moving = false;
+    const noBtn = document.getElementById("no");
+    let activated = false;
 
-    function moveNo() {
-      const no = document.getElementById("no");
+    noBtn.addEventListener("mouseenter", activateNo);
+    noBtn.addEventListener("touchstart", activateNo);
 
-      // only start moving if it's not moving yet
-      if (!moving) {
-        moving = true;
-        no.style.position = "absolute"; // now it can move freely
-        dodgeNo();
+    function activateNo() {
+      if (!activated) {
+        activated = true;
+        noBtn.style.position = "absolute";
       }
+      dodgeNo();
     }
 
     function dodgeNo() {
-      const no = document.getElementById("no");
-      const container = no.parentElement.getBoundingClientRect();
+      const container = document.querySelector(".buttons").getBoundingClientRect();
+      const maxX = container.width - noBtn.offsetWidth;
+      const maxY = container.height - noBtn.offsetHeight;
 
-      const maxTop = container.height - no.offsetHeight;
-      const maxLeft = container.width - no.offsetWidth;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-      const top = Math.random() * maxTop;
-      const left = Math.random() * maxLeft;
-
-      no.style.top = top + "px";
-      no.style.left = left + "px";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     }
-
-    // add continuous dodge on mousemove when hovering
-    document.getElementById("no").addEventListener("mousemove", dodgeNo);
 
     function yesClicked() {
       document.body.innerHTML = `
-        <h1>YAYY! HEHEHEHE 💙</h1>
-        <p>Pftt like you had a choice to say no. Just imagine the audacity.</p>
-        <p>Imagine making me wait for you to ask and having to finally step up!</p>
-        <p> HMPHH! I'll be mad at you later</p>
-        <p>Like imagineee not having a valentine when you have such a hawt gf :(</p>
-        <p>I love you. Always and forever 😘💙💍 </p>
-        <img src="yay.gif" style="width:200px;border-radius:20px;"> 
+        <div style="text-align:center;padding:40px;">
+          <h1>YAYY! HEHEHEHE 💙</h1>
+          <p>Pftt like you had a choice to say no.</p>
+          <p>Imagine making me wait and finally stepping up.</p>
+          <p>HMPHH. I’ll be mad later.</p>
+          <p>Imagine not having a valentine when you have such a hawt gf :(</p>
+          <p>I love you. Always and forever 😘💙💍</p>
+          <img src="yay.gif" style="width:200px;border-radius:20px;">
+        </div>
       `;
     }
   </script>
 
 </body>
-
 </html>
-
